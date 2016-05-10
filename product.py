@@ -12,11 +12,11 @@ class Template:
 
     def sum_product(self, name):
         pool = Pool()
-        Location = pool.get('stock.location')
+        StockConfiguration = pool.get('stock.configuration')
 
         if (name in ('quantity', 'forecast_quantity') and
                 'locations' not in Transaction().context):
-            warehouses = Location.search([('type', '=', 'warehouse')])
+            warehouses = [StockConfiguration(1).warehouse]
             location_ids = [w.storage_location.id for w in warehouses]
             with Transaction().set_context(locations=location_ids):
                 return super(Template, self).sum_product(name)
