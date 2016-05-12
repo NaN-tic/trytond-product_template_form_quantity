@@ -2,9 +2,11 @@
 # copyright notices and license terms.
 from trytond.pool import Pool
 from .product import *
+from .stock import *
 
 
 def register():
     Pool.register(
         Template,
+        Configuration,
         module='product_template_form_quantity', type_='model')

@@ -16,7 +16,14 @@ class Template:
 
         if (name in ('quantity', 'forecast_quantity') and
                 'locations' not in Transaction().context):
-            warehouses = Location.search([('type', '=', 'warehouse')])
+
+            configuration = pool.get('stock.configuration')(1)
+            warehouses = (configuration.warehouse and
+                [configuration.warehouse] or [])
+
+            if not warehouses:
+                warehouses = Location.search([('type', '=', 'warehouse')])
+
             location_ids = [w.storage_location.id for w in warehouses]
             with Transaction().set_context(locations=location_ids):
                 return super(Template, self).sum_product(name)
