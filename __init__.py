@@ -9,8 +9,4 @@ def register():
     Pool.register(
         Template,
         Configuration,
-        Lot,
         module='product_template_form_quantity', type_='model')
-    Pool.register(
-        LotReport,
-        module='stock_move_jreport', type_='report')
