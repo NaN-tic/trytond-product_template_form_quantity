@@ -11,6 +11,7 @@ __all__ = ['Configuration']
 class Configuration:
     __metaclass__ = PoolMeta
     __name__ = 'stock.configuration'
-    warehouse = fields.Property(fields.Many2One('stock.location', 'Warehouse'))
+    warehouse = fields.Property(fields.Many2One('stock.location', 'Warehouse',
+        domain=[('type', '=', 'warehouse')]))
     lag_days = fields.Property(fields.Numeric('Number of lag days',
             digits=(16, 0)))
