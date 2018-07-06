@@ -8,6 +8,7 @@ import trytond.tests.test_tryton
 from trytond.tests.test_tryton import ModuleTestCase, with_transaction
 from trytond.pool import Pool
 from trytond.modules.company.tests import create_company, set_company
+from trytond.transaction import Transaction
 
 
 class ProductTemplateFormQuantityTestCase(ModuleTestCase):
@@ -84,7 +85,11 @@ class ProductTemplateFormQuantityTestCase(ModuleTestCase):
                         }])
             Move.do(moves)
 
-            template = Template(product.template.id)
+            with Transaction().set_context(locations=[
+                        warehouse1.storage_location.id,
+                        warehouse2.storage_location.id,
+                        ]):
+                template = Template(product.template.id)
             self.assertEqual(template.quantity, Decimal('15.0'))
 
             moves = Move.create([{
@@ -103,13 +108,14 @@ class ProductTemplateFormQuantityTestCase(ModuleTestCase):
 
             configuration = Configuration(1)
             configuration.warehouse = warehouse1
-            configuration.leg_days = 10
+            configuration.lag_days = 10
             configuration.save()
 
             template = Template(product.template.id)
             # not sum 5 + 5 (total 10)
             # because effective date last move is today + 5
             self.assertEqual(template.quantity, Decimal('5.0'))
+            self.assertEqual(template.forecast_quantity, Decimal('10.0'))
 
 
 def suite():
