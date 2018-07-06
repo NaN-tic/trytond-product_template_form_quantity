@@ -39,6 +39,6 @@ class Template:
                     'locations': location_ids,
                     'stock_date_end': stock_date_end,
                     }):
-                return super(Template, self).sum_product(name)
+                self = self.__class__(self.id)
 
         return super(Template, self).sum_product(name)

@@ -9,4 +9,5 @@ def register():
     Pool.register(
         Template,
         Configuration,
+        ConfigurationProductTemplateFormQuantity,
         module='product_template_form_quantity', type_='model')
