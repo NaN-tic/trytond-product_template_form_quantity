@@ -1,6 +1,8 @@
 # The COPYRIGHT file at the top level of this repository contains the full
 # copyright notices and license terms.
 from dateutil.relativedelta import relativedelta
+from trytond.model import fields
+from trytond.pyson import Eval
 from trytond.pool import Pool, PoolMeta
 from trytond.transaction import Transaction
 
@@ -10,6 +12,20 @@ __metaclass__ = PoolMeta
 
 class Template:
     __name__ = 'product.template'
+
+    unit_digits = fields.Function(fields.Integer('Unit Digits'),
+        'on_change_with_unit_digits')
+
+    @classmethod
+    def __setup__(cls):
+        super(Template, cls).__setup__()
+        cls.quantity.digits=(16, Eval('unit_digits', 2))
+
+    @fields.depends('default_uom')
+    def on_change_with_unit_digits(self, name=None):
+        if self.default_uom:
+            return self.default_uom.digits
+        return 2
 
     def sum_product(self, name):
         pool = Pool()
@@ -41,4 +57,6 @@ class Template:
                     }):
                 return super(Template, self).sum_product(name)
 
-        return super(Template, self).sum_product(name)
+        sum_ = super(Template, self).sum_product(name)
+        sum_ = Uom.compute_qty(self.default_uom, sum_)
+        return sum_
