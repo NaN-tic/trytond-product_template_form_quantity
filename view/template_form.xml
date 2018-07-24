@@ -8,5 +8,6 @@
         <field name="quantity"/>
         <label name="forecast_quantity"/>
         <field name="forecast_quantity"/>
+        <field name="unit_digits" invisible="1" colspan="4"/>
     </xpath>
 </data>

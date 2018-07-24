@@ -11,6 +11,20 @@ class Template:
     __metaclass__ = PoolMeta
     __name__ = 'product.template'
 
+    unit_digits = fields.Function(fields.Integer('Unit Digits'),
+        'on_change_with_unit_digits')
+
+    @classmethod
+    def __setup__(cls):
+        super(Template, cls).__setup__()
+        cls.quantity.digits=(16, Eval('unit_digits', 2))
+
+    @fields.depends('default_uom')
+    def on_change_with_unit_digits(self, name=None):
+        if self.default_uom:
+            return self.default_uom.digits
+        return 2
+
     def sum_product(self, name):
         pool = Pool()
         Configuration = pool.get('stock.configuration')
@@ -41,4 +55,6 @@ class Template:
                     }):
                 return super(Template, self).sum_product(name)
 
-        return super(Template, self).sum_product(name)
+        sum_ = super(Template, self).sum_product(name)
+        sum_ = Uom.compute_qty(self.default_uom, sum_)
+        return sum_
