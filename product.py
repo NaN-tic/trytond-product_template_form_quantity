@@ -1,5 +1,7 @@
 # The COPYRIGHT file at the top level of this repository contains the full
 # copyright notices and license terms.
+from trytond.model import fields
+from trytond.pyson import Eval
 from dateutil.relativedelta import relativedelta
 from trytond.pool import Pool, PoolMeta
 from trytond.transaction import Transaction
@@ -30,6 +32,7 @@ class Template:
         Configuration = pool.get('stock.configuration')
         Location = pool.get('stock.location')
         Date = pool.get('ir.date')
+        Uom = pool.get('product.uom')
 
         if (name in ('quantity', 'forecast_quantity')):
             context = Transaction().context
