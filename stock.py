@@ -14,8 +14,7 @@ warehouse = fields.Many2One('stock.location', 'Warehouse',
 lag_days = fields.Numeric('Number of lag days', digits=(16, 0))
 
 
-class Configuration:
-    __metaclass__ = PoolMeta
+class Configuration(metaclass=PoolMeta):
     __name__ = 'stock.configuration'
     warehouse = fields.MultiValue(warehouse)
     lag_days = fields.MultiValue(lag_days)
