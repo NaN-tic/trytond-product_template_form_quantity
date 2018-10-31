@@ -20,6 +20,7 @@ class Template:
     def __setup__(cls):
         super(Template, cls).__setup__()
         cls.quantity.digits=(16, Eval('unit_digits', 2))
+        cls.quantity.depends.append('unit_digits')
 
     @fields.depends('default_uom')
     def on_change_with_unit_digits(self, name=None):
@@ -59,5 +60,5 @@ class Template:
                 self = self.__class__(self.id)
 
         sum_ = super(Template, self).sum_product(name)
-        sum_ = Uom.compute_qty(self.default_uom, sum_)
+        sum_ = Uom.compute_qty(self.default_uom, sum_, self.default_uom)
         return sum_
