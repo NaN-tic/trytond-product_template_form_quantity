@@ -5,9 +5,12 @@ from trytond.model import fields
 from trytond.pyson import Eval
 from trytond.pool import Pool, PoolMeta
 from trytond.transaction import Transaction
+from decimal import Decimal
 
 __all__ = ['Template']
 __metaclass__ = PoolMeta
+
+DEFAULT_FLOAT_DIGITS = 2
 
 
 class Template:
@@ -19,7 +22,7 @@ class Template:
     @classmethod
     def __setup__(cls):
         super(Template, cls).__setup__()
-        cls.quantity.digits=(16, Eval('unit_digits', 2))
+        cls.quantity.digits = (16, Eval('unit_digits', 2))
 
     @fields.depends('default_uom')
     def on_change_with_unit_digits(self, name=None):
@@ -37,7 +40,6 @@ class Template:
         if (name in ('quantity', 'forecast_quantity')):
             context = Transaction().context
             configuration = Configuration(1)
-
             if 'locations' in context:
                 location_ids = context['locations']
             else:
@@ -56,8 +58,16 @@ class Template:
                     'locations': location_ids,
                     'stock_date_end': stock_date_end,
                     }):
-                return super(Template, self).sum_product(name)
+                sum_ = super(Template, self).sum_product(name)
+                digits = DEFAULT_FLOAT_DIGITS
+                return round(sum_, digits)
 
         sum_ = super(Template, self).sum_product(name)
         sum_ = Uom.compute_qty(self.default_uom, sum_)
-        return sum_
+        field = getattr(self, name)
+        if hasattr(field, 'digits'):
+            digits = field.digits[1]
+        else:
+            digits = DEFAULT_FLOAT_DIGITS
+        return sum_.quantize(Decimal(str(10.0 ** digits))) \
+            if isinstance(sum_, Decimal) else round(sum_, digits)
