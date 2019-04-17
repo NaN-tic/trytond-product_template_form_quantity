@@ -35,7 +35,6 @@ class ProductTemplateFormQuantityTestCase(ModuleTestCase):
                         'name': 'Product',
                         'default_uom': u.id,
                         'list_price': Decimal(0),
-                        'cost_price': Decimal(10),
                         'products': [('create', [{}])],
                         }])
             product, = template.products
