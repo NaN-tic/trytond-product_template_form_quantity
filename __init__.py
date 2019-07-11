@@ -8,6 +8,7 @@ from . import stock
 def register():
     Pool.register(
         product.Template,
+        product.Product,
         stock.Configuration,
         stock.ConfigurationProductTemplateFormQuantity,
         module='product_template_form_quantity', type_='model')
