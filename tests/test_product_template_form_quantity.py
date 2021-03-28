@@ -103,7 +103,11 @@ class ProductTemplateFormQuantityTestCase(ModuleTestCase):
                         'unit_price': Decimal('1'),
                         'currency': currency.id,
                         }])
-            Move.do(moves)
+
+            # Skip warnings so we're not warned about the fact that we're
+            # creating future moves.
+            with Transaction().set_context({'_skip_warnings': True}):
+                Move.do(moves)
 
             configuration = Configuration(1)
             configuration.warehouse = warehouse1
