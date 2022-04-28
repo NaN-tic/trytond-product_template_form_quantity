@@ -1,18 +1,19 @@
-# The COPYRIGHT file at the top level of this repository contains the full
-# copyright notices and license terms.
-import unittest
+
+# This file is part of Tryton.  The COPYRIGHT file at the top level of
+# this repository contains the full copyright notices and license terms.
+
 import datetime
 from decimal import Decimal
 from dateutil.relativedelta import relativedelta
-import trytond.tests.test_tryton
 from trytond.tests.test_tryton import ModuleTestCase, with_transaction
 from trytond.pool import Pool
-from trytond.modules.company.tests import create_company, set_company
+from trytond.modules.company.tests import (CompanyTestMixin, create_company,
+    set_company)
 from trytond.transaction import Transaction
 
 
-class ProductTemplateFormQuantityTestCase(ModuleTestCase):
-    'Test Product Template Form Quantity module'
+class ProductTemplateFormQuantityTestCase(CompanyTestMixin, ModuleTestCase):
+    'Test ProductTemplateFormQuantity module'
     module = 'product_template_form_quantity'
 
     @with_transaction()
@@ -121,8 +122,4 @@ class ProductTemplateFormQuantityTestCase(ModuleTestCase):
             self.assertEqual(template.forecast_quantity, Decimal('10.0'))
 
 
-def suite():
-    suite = trytond.tests.test_tryton.suite()
-    suite.addTests(unittest.TestLoader().loadTestsFromTestCase(
-        ProductTemplateFormQuantityTestCase))
-    return suite
+del ModuleTestCase
