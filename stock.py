@@ -4,7 +4,6 @@
 from trytond import backend
 from trytond.model import ModelSQL, fields
 from trytond.pool import Pool, PoolMeta
-from trytond.tools.multivalue import migrate_property
 from trytond.modules.company.model import CompanyValueMixin
 
 __all__ = ['Configuration', 'ConfigurationProductTemplateFormQuantity']
@@ -32,21 +31,3 @@ class ConfigurationProductTemplateFormQuantity(ModelSQL, CompanyValueMixin):
     __name__ = 'stock.configuration.product_template_form_quantity'
     warehouse = warehouse
     lag_days = lag_days
-
-    @classmethod
-    def __register__(cls, module_name):
-        exist = backend.TableHandler.table_exist(cls._table)
-
-        super(ConfigurationProductTemplateFormQuantity, cls).__register__(
-            module_name)
-
-        if not exist:
-            cls._migrate_property([], [], [])
-
-    @classmethod
-    def _migrate_property(cls, field_names, value_names, fields):
-        field_names.extend(['warehouse','lag_days'])
-        value_names.extend(['warehouse','lag_days'])
-        fields.append('company')
-        migrate_property('stock.configuration', field_names, cls, value_names,
-            fields=fields)
