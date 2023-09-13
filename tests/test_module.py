@@ -66,7 +66,7 @@ class ProductTemplateFormQuantityTestCase(CompanyTestMixin, ModuleTestCase):
 
             moves = Move.create([{
                         'product': product.id,
-                        'uom': u.id,
+                        'unit': u.id,
                         'quantity': 5,
                         'from_location': lost_found.id,
                         'to_location': warehouse1.storage_location.id,
@@ -75,7 +75,7 @@ class ProductTemplateFormQuantityTestCase(CompanyTestMixin, ModuleTestCase):
                         'currency': currency.id,
                         }, {
                         'product': product.id,
-                        'uom': u.id,
+                        'unit': u.id,
                         'quantity': 10,
                         'from_location': lost_found.id,
                         'to_location': warehouse2.storage_location.id,
@@ -94,7 +94,7 @@ class ProductTemplateFormQuantityTestCase(CompanyTestMixin, ModuleTestCase):
 
             moves = Move.create([{
                         'product': product.id,
-                        'uom': u.id,
+                        'unit': u.id,
                         'quantity': 5,
                         'from_location': lost_found.id,
                         'to_location': warehouse1.storage_location.id,
