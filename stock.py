@@ -1,12 +1,10 @@
 # This file is part of stock_product_form module for Tryton.
 # The COPYRIGHT file at the top level of this repository contains the full
 # copyright notices and license terms.
-from trytond import backend
 from trytond.model import ModelSQL, fields
 from trytond.pool import Pool, PoolMeta
 from trytond.modules.company.model import CompanyValueMixin
 
-__all__ = ['Configuration', 'ConfigurationProductTemplateFormQuantity']
 
 warehouse = fields.Many2One('stock.location', 'Warehouse',
     domain=[('type', '=', 'warehouse')])
