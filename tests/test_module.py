@@ -71,8 +71,6 @@ class ProductTemplateFormQuantityTestCase(CompanyTestMixin, ModuleTestCase):
                         'from_location': lost_found.id,
                         'to_location': warehouse1.storage_location.id,
                         'company': company.id,
-                        'unit_price': Decimal('1'),
-                        'currency': currency.id,
                         }, {
                         'product': product.id,
                         'unit': u.id,
@@ -80,8 +78,6 @@ class ProductTemplateFormQuantityTestCase(CompanyTestMixin, ModuleTestCase):
                         'from_location': lost_found.id,
                         'to_location': warehouse2.storage_location.id,
                         'company': company.id,
-                        'unit_price': Decimal('1'),
-                        'currency': currency.id,
                         }])
             Move.do(moves)
 
@@ -101,8 +97,6 @@ class ProductTemplateFormQuantityTestCase(CompanyTestMixin, ModuleTestCase):
                         'planned_date': today + relativedelta(days=5),
                         'effective_date': today + relativedelta(days=5),
                         'company': company.id,
-                        'unit_price': Decimal('1'),
-                        'currency': currency.id,
                         }])
 
             # Skip warnings so we're not warned about the fact that we're
