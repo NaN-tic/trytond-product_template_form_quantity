@@ -37,15 +37,15 @@ class Product(metaclass=PoolMeta):
         # Only override the behaviour when context does not already
         # condition the quantity to be computed
         if 'locations' in Transaction().context:
-            return super(Product, cls).get_quantity(products, name)
+            return super().get_quantity(products, name)
         with Transaction().set_context(get_context()):
-            return super(Product, cls).get_quantity(products, name)
+            return super().get_quantity(products, name)
 
     @classmethod
     def search_quantity(cls, name, domain=None):
         # Only override the behaviour when context does not already
         # condition the quantity to be computed
         if 'locations' in Transaction().context:
-            return super(Product, cls).search_quantity(name, domain)
+            return super().search_quantity(name, domain)
         with Transaction().set_context(get_context()):
-            return super(Product, cls).search_quantity(name, domain)
+            return super().search_quantity(name, domain)
