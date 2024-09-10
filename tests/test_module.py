@@ -87,6 +87,7 @@ class ProductTemplateFormQuantityTestCase(CompanyTestMixin, ModuleTestCase):
                         ]):
                 template = Template(product.template.id)
             self.assertEqual(template.quantity, Decimal('15.0'))
+            self.assertEqual(template.forecast_quantity, Decimal('15.0'))
 
             moves = Move.create([{
                         'product': product.id,
