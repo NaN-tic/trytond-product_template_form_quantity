@@ -29,22 +29,6 @@ def get_context():
         }
 
 
-class Template(metaclass=PoolMeta):
-    __name__ = 'product.template'
-
-    def sum_product(self, name):
-        if (name in ('quantity', 'forecast_quantity')):
-            # Only override the behaviour when context does not already
-            # condition the quantity to be computed
-            if 'locations' in Transaction().context:
-                return super().sum_product(name)
-
-            with Transaction().set_context(get_context()):
-                self = self.__class__(self.id)
-
-        return super().sum_product(name)
-
-
 class Product(metaclass=PoolMeta):
     __name__ = 'product.product'
 
