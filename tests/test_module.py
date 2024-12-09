@@ -27,7 +27,6 @@ class ProductTemplateFormQuantityTestCase(CompanyTestMixin, ModuleTestCase):
         Uom = pool.get('product.uom')
 
         company = create_company()
-        currency = company.currency
         with set_company(company):
             today = datetime.date.today()
 
